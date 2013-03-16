@@ -16,8 +16,8 @@ class OpauthController extends OpauthAppController {
 	public function opauth_complete() {
 		if (!empty($this->data['validated'])) {
 			// Save response in the Session
-			$this->Session->write($strategy, $this->data['auth']);
 			$strategy = $this->data['auth']['provider'];
+			$this->Session->write($strategy, $this->data['auth']);
 
 			// Dispatch CakeEvent
 			$event = new CakeEvent('Opauth.validated', $this, $this->data);
@@ -25,6 +25,12 @@ class OpauthController extends OpauthAppController {
 			if ($event->isStopped()) {
 				return;
 			}
+
+			// Redirect to the Strategy redirect URL
+			$redirect = Configure::read(sprintf(
+				'Opauth.Strategy.%s.redirect',
+				$strategy
+			));
 		}
 
 		// Dispatch CakeEvent
@@ -34,13 +40,12 @@ class OpauthController extends OpauthAppController {
 			return;
 		}
 
-		// Redirect to the Strategy redirect URL
-		$redirect = Configure::read(sprintf(
-			'Opauth.Strategy.%s.redirect',
-			$strategy
-		));
-		if (!$redirect) {
-			$redirect = '/';
+		if (empty($redirect)) {
+			if (is_object($this->Auth)) {
+				$redirect = $this->Auth->loginAction;
+			} else {
+				$redirect = '/';
+			}
 		}
 		$this->redirect($redirect);
 	}
