@@ -7,12 +7,12 @@ Opauth is a multi-provider authentication framework.
 
 Requirements
 ---------
-CakePHP v2.x  
+CakePHP v2.x
 Opauth >= v0.2 _(submoduled with this package)_
 
 Using [Composer](http://getcomposer.org/)?
 -----------
-You can install CakePHP-Opauth plugin directly from Composer at [uzyn/cakephp-opauth](http://packagist.org/packages/uzyn/cakephp-opauth).  
+You can install CakePHP-Opauth plugin directly from Composer at [uzyn/cakephp-opauth](http://packagist.org/packages/uzyn/cakephp-opauth).
 It works for Opauth strategies too!
 
 View notes and Composer-enabled plugin code at [composer branch](https://github.com/uzyn/cakephp-opauth/tree/composer).
@@ -23,7 +23,7 @@ Check out [CakePHP bakery](http://bakery.cakephp.org/articles/uzyn/2012/06/25/si
 
 How to use
 ----------
-1. Install this plugin for your CakePHP app.   
+1. Install this plugin for your CakePHP app.
    Assuming `APP` is the directory where your CakePHP app resides, it's usually `app/` from the base of CakePHP.
 
    ```bash
@@ -52,7 +52,7 @@ How to use
    ```php
    <?php
    CakePlugin::load('Opauth', array('routes' => true, 'bootstrap' => true));
-   
+
    // Using Facebook strategy as an example
    Configure::write('Opauth.Strategy.Facebook', array(
        'app_id' => 'YOUR FACEBOOK APP ID',
@@ -69,13 +69,13 @@ How to use
    ```php
    <?php
    Router::connect(
-       '/opauth-complete/*', 
+       '/opauth-complete/*',
        array('controller' => 'users', 'action' => 'opauth_complete')
    );
    ```
 
    You can then work with the authentication data at, say `APP/Controller/UsersController.php` as follows:
-   
+
    ```php
    <?php // APP/Controller/UsersController.php:
    class UsersController extends AppController {
@@ -87,13 +87,13 @@ How to use
 
    Note that this CakePHP Opauth plugin already does auth response validation for you with its results available as a boolean value at `$this->data['validated']`.
 
-7. _(optional)_ The submoduled Opauth core library may not be of the latest build, to update to the latest:  
+7. _(optional)_ The submoduled Opauth core library may not be of the latest build, to update to the latest:
    ```bash
    git submodule foreach git pull origin master
    ```
 
 ### Note:
-If your CakePHP app **does not** reside at DocumentRoot (eg. `http://localhost`), but at a directory below DocumentRoot (eg. `http://localhost/your-cake-app`),  
+If your CakePHP app **does not** reside at DocumentRoot (eg. `http://localhost`), but at a directory below DocumentRoot (eg. `http://localhost/your-cake-app`),
 add this line to your app's `APP/Config/bootstrap.php`, replacing `your-cake-app` with your actual path :
 
 ```php
@@ -103,18 +103,18 @@ Configure::write('Opauth.path', '/your-cake-app/auth/');
 
 Issues & questions
 -------------------
-- Discussion group: [Google Groups](https://groups.google.com/group/opauth)  
+- Discussion group: [Google Groups](https://groups.google.com/group/opauth)
   _This is the primary channel for support, especially for user questions._
-- Issues: [Github Issues](https://github.com/uzyn/cakephp-opauth/issues)  
-- Twitter: [@uzyn](http://twitter.com/uzyn)  
-- Email me: chua@uzyn.com  
+- Issues: [Github Issues](https://github.com/uzyn/cakephp-opauth/issues)
+- Twitter: [@uzyn](http://twitter.com/uzyn)
+- Email me: chua@uzyn.com
 - IRC: **#opauth** on [Freenode](http://webchat.freenode.net/?channels=opauth&uio=d4)
 
 <p>Used this plugin in your CakePHP project? Let us know!</p>
 
 License
 ---------
-The MIT License  
+The MIT License
 Copyright © 2012-2013 U-Zyn Chua (http://uzyn.com)
 
 Package building instructions
@@ -137,5 +137,5 @@ zip -mr Opauth-CakePHP-plugin-X.Y.Z.zip Opauth
 
 Consultation
 ---------
-U-Zyn Chua is the Principal Consultant at [Zynesis Consulting](http://zynesis.com), specializing in CakePHP.  
+U-Zyn Chua is the Principal Consultant at [Zynesis Consulting](http://zynesis.com), specializing in CakePHP.
 Looking for PHP web development solutions or consultation? [Drop me a mail](mailto:chua@uzyn.com).

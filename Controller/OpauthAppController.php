@@ -1,53 +1,53 @@
 <?php
 /**
  * CakePHP plugin for Opauth
- * 
+ *
  * @copyright    Copyright © 2012-2013 U-Zyn Chua (http://uzyn.com)
  * @link         http://opauth.org
  * @license      MIT License
  */
 class OpauthAppController extends AppController {
 	public $uses = array();
-	
+
 	/**
 	 * Opauth instance
 	 */
 	public $Opauth;
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
-		
+
 		$this->autoRender = false;
 	}
-	
+
 	/**
 	 * Catch all for Opauth
 	 */
 	public function index(){
 		$this->_loadOpauth();
 		$this->Opauth->run();
-		
+
 		return;
 	}
-	
+
 	/**
 	 * Receives auth response and does validation
 	 */
 	public function callback(){
 		$response = null;
-		
+
 		/**
 		* Fetch auth response, based on transport configuration for callback
 		*/
-		switch(Configure::read('Opauth.callback_transport')){	
+		switch(Configure::read('Opauth.callback_transport')){
 			case 'session':
 				if (!session_id()){
 					session_start();
 				}
-				
+
 				if(isset($_SESSION['opauth'])) {
 					$response = $_SESSION['opauth'];
 					unset($_SESSION['opauth']);
@@ -63,7 +63,7 @@ class OpauthAppController extends AppController {
 				echo '<strong style="color: red;">Error: </strong>Unsupported callback_transport.'."<br>\n";
 				break;
 		}
-		
+
 		/**
 		 * Check if it's an error callback
 		 */
@@ -74,13 +74,13 @@ class OpauthAppController extends AppController {
 
 		/**
 		 * Auth response validation
-		 * 
-		 * To validate that the auth response received is unaltered, especially auth response that 
+		 *
+		 * To validate that the auth response received is unaltered, especially auth response that
 		 * is sent through GET or POST.
 		 */
 		else{
 			$this->_loadOpauth();
-			
+
 			if (empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid'])){
 				$response['error'] = array(
 					'provider' => $response['auth']['provider'],
@@ -101,7 +101,7 @@ class OpauthAppController extends AppController {
 				$response['validated'] = true;
 			}
 		}
-		
+
 		/**
 		 * Redirect user to /opauth-complete
 		 * with validated response data available as POST data
@@ -109,19 +109,19 @@ class OpauthAppController extends AppController {
 		 */
 		$completeUrl = Configure::read('Opauth._cakephp_plugin_complete_url');
 		if (empty($completeUrl)) $completeUrl = Router::url('/opauth-complete');
-		
-		
+
+
 		$CakeRequest = new CakeRequest('/opauth-complete');
 		$CakeRequest->data = $response;
-		
+
 		$Dispatcher = new Dispatcher();
 		$Dispatcher->dispatch( $CakeRequest, new CakeResponse() );
 		exit();
 	}
-	
+
 	/**
 	 * Instantiate Opauth
-	 * 
+	 *
 	 * @param array $config User configuration
 	 * @param boolean $run Whether Opauth should auto run after initialization.
 	 */
@@ -130,11 +130,11 @@ class OpauthAppController extends AppController {
 		if (Configure::read('Opauth.callback_url') == '/auth/callback') {
 			Configure::write('Opauth.callback_url', Configure::read('Opauth.path').'callback');
 		}
-		
+
 		if (is_null($config)){
 			$config = Configure::read('Opauth');
 		}
-		
+
 		App::import('Vendor', 'Opauth.Opauth/lib/Opauth/Opauth');
 		$this->Opauth = new Opauth( $config, $run );
 	}
