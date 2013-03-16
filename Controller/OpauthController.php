@@ -17,7 +17,7 @@ class OpauthController extends OpauthAppController {
 		if (!empty($this->data['validated'])) {
 			// Save response in the Session
 			$strategy = $this->data['auth']['provider'];
-			$this->Session->write($strategy, $this->data['auth']);
+			$this->Session->write($strategy, $this->data);
 
 			// Dispatch CakeEvent
 			$event = new CakeEvent('Opauth.validated', $this, $this->data);
