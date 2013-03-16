@@ -2,13 +2,13 @@ CakePHP plugin for Opauth
 =========================
 Original source https://github.com/uzyn/cakephp-opauth
 
-CakePHP 2.x plugin for [Opauth](https://github.com/uzyn/opauth).
+CakePHP 2.x plugin for [Opauth](https://github.com/opauth/opauth).
 
 Opauth is a multi-provider authentication framework.
 
 Requirements
 ---------
-CakePHP v2.x
+CakePHP v2.x  
 Opauth >= v0.2 _(submoduled with this package)_
 
 How to use
@@ -18,7 +18,7 @@ How to use
 
    ```bash
    cd APP/Plugin
-   git clone git://github.com/uzyn/cakephp-opauth.git Opauth
+   git clone git://github.com/jmillerdesign/cakephp-opauth.git Opauth
    ```
 
 2. Download Opauth library as a submodule.
