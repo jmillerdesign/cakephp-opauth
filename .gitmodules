@@ -1,6 +1,3 @@
-[submodule "Vendor/Opauth"]
-	path = Vendor/Opauth
-	url = git://github.com/uzyn/opauth.git
 [submodule "Strategy/Bitbucket"]
 	path = Strategy/Bitbucket
 	url = https://github.com/fancyguy/opauth-bitbucket.git
@@ -43,3 +40,6 @@
 [submodule "Strategy/Vimeo"]
 	path = Strategy/Vimeo
 	url = https://github.com/LubosRemplik/opauth-vimeo.git
+[submodule "Vendor/Opauth"]
+	path = Vendor/Opauth
+	url = https://github.com/opauth/opauth.git
