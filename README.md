@@ -46,41 +46,14 @@ How to use
    // Using Facebook strategy as an example
    Configure::write('Opauth.Strategy.Facebook', array(
        'app_id' => 'YOUR FACEBOOK APP ID',
-       'app_secret' => 'YOUR FACEBOOK APP SECRET'
+       'app_secret' => 'YOUR FACEBOOK APP SECRET',
+       'redirect' => '/'
    ));
    ```
 
 5. Go to `http://path_to_your_cake_app/auth/facebook` to authenticate with Facebook, and similarly for other strategies that you have loaded.
 
-6. After validation, user will be redirected to `Router::url('/opauth-complete')` with validated auth response data retrievable available at `$this->data`.
-
-   To route a controller to handle the response, at your app's `Config/routes.php`, add a connector, for example:
-
-   ```php
-   <?php
-   Router::connect(
-       '/opauth-complete/*',
-       array('controller' => 'users', 'action' => 'opauth_complete')
-   );
-   ```
-
-   You can then work with the authentication data at, say `APP/Controller/UsersController.php` as follows:
-
-   ```php
-   <?php // APP/Controller/UsersController.php:
-   class UsersController extends AppController {
-       public function opauth_complete() {
-           debug($this->data);
-       }
-   }
-   ```
-
-   Note that this CakePHP Opauth plugin already does auth response validation for you with its results available as a boolean value at `$this->data['validated']`.
-
-7. _(optional)_ The submoduled Opauth core library may not be of the latest build, to update to the latest:
-   ```bash
-   git submodule foreach git pull origin master
-   ```
+6. After you return from the strategy's site, you will be redirected to the Opauth.Strategy.Facebook.redirect URL that you set in the configuration. If validated, the response data will be set in the session, with the strategy being the session key. The CakeEvents `Opauth.validated` and `Opauth.complete` are also dispatched.
 
 ### Note:
 If your CakePHP app **does not** reside at DocumentRoot (eg. `http://localhost`), but at a directory below DocumentRoot (eg. `http://localhost/your-cake-app`),
