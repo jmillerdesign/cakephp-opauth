@@ -10,8 +10,8 @@
 [submodule "Strategy/Google"]
 	path = Strategy/Google
 	url = https://github.com/uzyn/opauth-google.git
-[submodule "Strategy/Github"]
-	path = Strategy/Github
+[submodule "Strategy/GitHub"]
+	path = Strategy/GitHub
 	url = https://github.com/uzyn/opauth-github.git
 [submodule "Strategy/Foursquare"]
 	path = Strategy/Foursquare
