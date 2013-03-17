@@ -53,7 +53,7 @@ How to use
 
 5. Go to `http://path_to_your_cake_app/auth/facebook` to authenticate with Facebook, and similarly for other strategies that you have loaded.
 
-6. After you return from the strategy's site, you will be redirected to the Opauth.Strategy.Facebook.redirect URL that you set in the configuration. If validated, the response data will be set in the session, with the strategy being the session key. The CakeEvents `Opauth.validated` and `Opauth.complete` are also dispatched.
+6. After you return from the strategy's site, you will be redirected to the Opauth.Strategy.Facebook.redirect URL that you set in the configuration. The response will be POSTed to this url and is accessible in $this->data. If validated, the response data will be set in the session, with the strategy being the session key. The CakeEvents `Opauth.validated` and `Opauth.complete` are also dispatched.
 
 ### Note:
 If your CakePHP app **does not** reside at DocumentRoot (eg. `http://localhost`), but at a directory below DocumentRoot (eg. `http://localhost/your-cake-app`),

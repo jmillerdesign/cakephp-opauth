@@ -1,4 +1,5 @@
 <?php
+App::uses('Router', 'Routing');
 class OpauthController extends OpauthAppController {
 
 	public function beforeFilter() {
@@ -14,9 +15,14 @@ class OpauthController extends OpauthAppController {
  * @return void Redirects to the Strategy redirect URL
  */
 	public function opauth_complete() {
+		if (array_key_exists('auth', $this->data)) {
+			$strategy = $this->data['auth']['provider'];
+		} else if (array_key_exists('error', $this->data)) {
+			$strategy = $this->data['error']['provider'];
+		}
+
 		if (!empty($this->data['validated'])) {
 			// Save response in the Session
-			$strategy = $this->data['auth']['provider'];
 			$this->Session->write($strategy, $this->data);
 
 			// Dispatch CakeEvent
@@ -25,13 +31,13 @@ class OpauthController extends OpauthAppController {
 			if ($event->isStopped()) {
 				return;
 			}
-
-			// Redirect to the Strategy redirect URL
-			$redirect = Configure::read(sprintf(
-				'Opauth.Strategy.%s.redirect',
-				$strategy
-			));
 		}
+
+		// Redirect to the Strategy redirect URL
+		$redirect = Configure::read(sprintf(
+			'Opauth.Strategy.%s.redirect',
+			$strategy
+		));
 
 		// Dispatch CakeEvent
 		$event = new CakeEvent('Opauth.complete', $this, $this->data);
@@ -40,14 +46,19 @@ class OpauthController extends OpauthAppController {
 			return;
 		}
 
-		if (empty($redirect)) {
+		if (!$redirect) {
 			if (is_object($this->Auth)) {
 				$redirect = $this->Auth->loginAction;
 			} else {
 				$redirect = '/';
 			}
 		}
-		$this->redirect($redirect);
+
+		$cakeRequest = new CakeRequest(Router::url($redirect));
+		$cakeRequest->data = $this->data;
+
+		$dispatcher = new Dispatcher();
+		$dispatcher->dispatch($cakeRequest, new CakeResponse());
 	}
 
 }
